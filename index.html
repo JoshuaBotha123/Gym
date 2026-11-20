@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#e4572e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Athlete Build">
-<title>Athlete Build · 4 Weeks</title>
+<meta name="apple-mobile-web-app-title" content="Phase 2">
+<title>Athlete Build · Phase 2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -137,13 +137,20 @@ nav.tabbar button.on{color:var(--accent)}
 .timer .ctrl{display:flex;gap:10px;margin-top:26px;width:100%;max-width:420px}
 .timer .ctrl button{flex:1;border:none;border-radius:14px;padding:16px;font-weight:700;font-size:16px;background:rgba(255,255,255,.16);color:#fff}
 .timer .ctrl button.p{background:#fff;color:#111}
+.shbanner{background:var(--accent-soft);border:1px solid var(--accent);color:var(--ink);font-size:13px}
+.shbanner b{color:var(--accent)}
+.ex.sh{border-left:4px solid var(--accent)}
+.shl{display:inline-block;min-width:22px;padding:2px 6px;border-radius:6px;font-size:11px;font-weight:700}
+.shl.Great,.shl.Fine{background:var(--good-soft);color:var(--good)}
+.shl.Tight{background:var(--accent-soft);color:var(--accent)}
+.shl.Sore{background:var(--accent);color:var(--accent-ink)}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:60;opacity:0;transition:opacity .25s;pointer-events:none}
 .toast.show{opacity:1}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <div class="brand"><h1>Athlete <span>Build</span></h1><small id="hello"></small></div>
+  <div class="brand"><h1>Phase <span>2</span></h1><small id="hello"></small></div>
   <div class="chips" id="weeks"></div>
 </div></header>
 <main class="wrap" id="app"></main>
@@ -169,105 +176,125 @@ nav.tabbar button.on{color:var(--accent)}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ================= PROGRAM DATA ================= */
+/* ================= PROGRAM DATA — PHASE 2 (Weeks 5–8) ================= */
 const WEEKS=[
- {n:1,theme:'Foundation',note:'Learn the movements and own your form. Finish every set feeling like you had 2–3 reps left.'},
- {n:2,theme:'Build',note:'More reps and more sets with the same weights. Cleaner, stronger, a little less rest if you can.'},
- {n:3,theme:'Load',note:'Heavier holds and slow 3-second lowering on key lifts. This is where the muscle gets built.'},
- {n:4,theme:'Peak',note:'Highest volume of the block. Push hard, keep form perfect, and compare everything to Week 1.'}
+ {n:1,label:5,theme:'Re-Load',note:'New, harder exercises. Learn them first — clean reps, 2 left in the tank. Shoulder work light and strict.'},
+ {n:2,label:6,theme:'Build',note:'More reps and sets on the same moves. Keep shoulder exercises slow and controlled — quality over weight.'},
+ {n:3,label:7,theme:'Power',note:'Heavier holds, 3-second lowering and more explosive jumps. Rest fully between sets so every rep is sharp.'},
+ {n:4,label:8,theme:'Peak & Test',note:'Biggest week of the program. Redo the fitness tests on the Progress tab and compare with Week 5.'}
 ];
 const E=(id,name,cue,w,rest,extra={})=>({id,name,cue,w,rest,...extra});
 
+const SHOULDER_A=[
+  E('s1a','Band External Rotation','Elbow pinned to your side (rolled towel under the arm), rotate your forearm out against the band. Slow, no shrugging.',[[2,'12 / arm'],[2,'15 / arm'],[3,'12 / arm · 2s hold'],[3,'15 / arm · 2s hold']],20,{sh:true}),
+  E('s1b','Scapular Push-Ups','Hands on the bench, arms straight. Let your chest sink between your shoulder blades, then push the bench away. Arms never bend.',[[2,'10'],[2,'12'],[3,'12'],[3,'15']],20,{sh:true})
+];
+const SHOULDER_B=[
+  E('s5a','Band Face Pulls','Band anchored at head height (pole, gate or door). Pull towards your face, elbows high, finish with thumbs pointing back.',[[2,'12'],[2,'15'],[3,'15'],[3,'15 · 2s hold']],20,{sh:true}),
+  E('s5b','Prone Y-Raises','Lie face down on the bench or mat, thumbs up, lift arms into a Y. No weight — squeeze the lower shoulder blades.',[[2,'10'],[2,'12'],[3,'10 · 2s hold'],[3,'12 · 2s hold']],20,{sh:true})
+];
+
 const DAYS=[
-{ id:1,short:'Legs',title:'Quads, Glutes & Abs',type:'strength',dur:'~45 min',tags:['Quads','Glutes','Abs'],
-  warm:['2 min high knees / jog on the spot','10 bodyweight squats','10 walking lunges (5 per leg)','10 glute bridges','10 leg swings each leg (front and side)'],
+{ id:1,short:'Legs',title:'Quads, Glutes & Abs',type:'strength',dur:'~45–50 min',tags:['Quads','Glutes','Abs','Shoulder prep'],
+  warm:['2 min high knees / jog on the spot','10 bodyweight squats','10 walking lunges (5 per leg)','10 glute bridges','10 lateral lunges (5 per side)','10 arm circles each way'],
   blocks:[
+   {title:'Shoulder prep (5 min)',sh:true,ex:SHOULDER_A},
    {title:'Quads & Glutes',ex:[
-    E('d1a','Goblet Squat','Hold the 12.5kg at your chest. Sit hips back and down, chest tall, knees track over toes.',[[3,'12'],[3,'15'],[4,'12 · 3s down'],[4,'15 · 3s down']],60),
-    E('d1b','Squat Jumps','Squat to parallel, explode up, land soft and quiet. Weeks 3–4: jump up onto the step.',[[3,'10'],[3,'12'],[4,'10 · onto step'],[4,'12 · onto step']],45),
-    E('d1c','Bulgarian Split Squat','Back foot on the bench, front shin vertical, lower until back knee nearly touches the floor.',[[3,'8 / leg · bodyweight'],[3,'10 / leg · 4kg'],[3,'10 / leg · 12.5kg goblet'],[4,'10 / leg · 12.5kg goblet']],60),
-    E('d1d','Hip Thrust','Upper back on the bench, band above knees, 12.5kg on hips. Squeeze glutes hard at the top.',[[3,'12'],[3,'15'],[4,'15'],[4,'15 · 2s pause at top']],60),
-    E('d1e','Step-Ups','Drive through the heel of the top foot. Don’t push off the bottom leg.',[[3,'8 / leg'],[3,'10 / leg'],[3,'10 / leg · hug 10kg ball'],[3,'12 / leg · hug 10kg ball']],45),
-    E('d1f','Banded Lateral Walk','Band above knees, stay in a half squat, toes forward, keep tension the whole time.',[[2,'10 steps each way'],[3,'10 steps each way'],[3,'12 steps each way'],[3,'15 steps each way']],30)
+    E('p1a','1½-Rep Goblet Squat','12.5kg at your chest. All the way down, halfway up, back down, then stand tall = 1 rep. Burns — that’s the point.',[[3,'8'],[3,'10'],[4,'10'],[4,'12']],60),
+    E('p1b','Step Jumps + Stick','Jump onto the step, land quiet and freeze for 2 seconds, step down. Every rep explosive — this is power, not cardio.',[[3,'6'],[4,'6'],[4,'8'],[5,'6']],60),
+    E('p1c','Deficit Bulgarian Split Squat','Front foot on the step, back foot on the bench — deeper than Phase 1. Hold 12.5kg goblet.',[[3,'8 / leg'],[3,'10 / leg'],[4,'8 / leg · 3s down'],[4,'10 / leg · 3s down']],60),
+    E('p1d','Single-Leg Hip Thrust','Upper back on the bench, one foot planted, other knee up. Dumbbell on the working hip. Squeeze 1s at the top.',[[3,'10 / leg · 4kg'],[3,'12 / leg · 4kg'],[4,'10 / leg · 12.5kg'],[4,'12 / leg · 12.5kg']],45),
+    E('p1e','Lateral Lunge','Big step to the side, sit back into that hip, other leg straight. Builds hockey-strong hips and inner thighs.',[[3,'8 / side'],[3,'10 / side · 4kg'],[3,'10 / side · 12.5kg goblet'],[4,'10 / side · 12.5kg goblet']],45),
+    E('p1f','Banded Wall Sit','Band above knees, push knees out against it, thighs parallel to the floor.',[[2,'40s'],[3,'45s'],[3,'60s'],[3,'60s · hug 10kg ball']],30,{timed:true})
    ]},
    {title:'Abs',ex:[
-    E('d1g','Dead Bug','Lower back glued to the mat. Slowly extend opposite arm and leg, breathe out as you reach.',[[3,'8 / side'],[3,'10 / side'],[3,'12 / side'],[3,'12 / side · hold 3kg']],30),
-    E('d1h','Russian Twist','Lean back, feet up if you can, rotate your shoulders — not just your arms.',[[3,'20 · 3kg'],[3,'20 · 4kg'],[3,'20 · 10kg ball'],[3,'24 · 10kg ball']],30),
-    E('d1i','Forearm Plank','Squeeze glutes and abs, one straight line from head to heels.',[[3,'30s'],[3,'40s'],[3,'45s'],[3,'60s']],30,{timed:true})
+    E('p1g','Long-Lever Dead Bug','Arms straight overhead, lower back glued down, slowly extend opposite arm and leg all the way.',[[3,'10 / side'],[3,'12 / side · 3kg'],[3,'12 / side · 4kg'],[3,'15 / side · 4kg']],30),
+    E('p1h','Med Ball Sit-Up','Hug the 10kg ball at your chest, sit up tall, lower slowly (3 seconds).',[[3,'12'],[3,'15'],[4,'12'],[4,'15']],30),
+    E('p1i','Plank with Alternating Reach','Forearm plank, reach one arm forward without your hips moving. Great for shoulder stability too.',[[3,'30s'],[3,'40s'],[3,'45s'],[3,'60s']],30,{timed:true})
    ]}
   ],
-  cool:['Quad stretch 30s / leg','Glute (pigeon) stretch 30s / side','Hip flexor lunge stretch 30s / side','Child’s pose 30s']
+  cool:['Quad stretch 30s / leg','Pigeon glute stretch 30s / side','Hip flexor lunge stretch 30s / side','Child’s pose with arms long 30s']
 },
-{ id:2,short:'HIIT',title:'Cardio HIIT Circuit',type:'hiit',dur:'~40 min',tags:['Cardio','Fat burn','Power'],
-  warm:['1 min jog (garden lengths)','10 arm circles each way','10 bodyweight squats','10 walking lunges','2 × easy 10m strides','30s jumping jacks'],
+{ id:2,short:'HIIT',title:'Athletic HIIT Circuit',type:'hiit',dur:'~40 min',tags:['Cardio','Fat burn','Speed','Agility'],
+  warm:['1 min jog (garden lengths)','10 arm circles each way','10 band pull-aparts','10 bodyweight squats','10 lateral shuffles each way','2 × 10m build-up sprints'],
   rounds:3,work:45,rest:15,roundRest:60,
   ex:[
-   {id:'h1',name:'Shuttle Sprints (10m)',cue:'Sprint the garden, touch the line, turn and go. Low and fast on the turns.'},
-   {id:'h2',name:'Burpees',cue:'Chest to floor, jump up, clap overhead. Step back instead of jumping if form breaks.'},
-   {id:'h3',name:'Squat Jumps',cue:'Full squat, maximum height, soft landing.'},
-   {id:'h4',name:'Mountain Climbers',cue:'Hands under shoulders, hips low, drive knees fast.'},
-   {id:'h5',name:'Med Ball Slams (10kg)',cue:'Ball overhead, slam it down with your whole body, squat to pick it up.'},
-   {id:'h6',name:'Skater Jumps',cue:'Leap side to side, land on one leg, stick it — like a speed skater.'},
-   {id:'h7',name:'Alternating Jump Lunges',cue:'Switch legs in the air, land softly, back knee towards the floor.'},
-   {id:'h8',name:'High Knees',cue:'Sprinter arms, knees to hip height, stay on the balls of your feet.'}
+   {id:'h1',name:'Shuttle Sprints (10m)',cue:'Sprint, touch the line with your hand, turn and go. Stay low through the turn.'},
+   {id:'h2',name:'Burpee Broad Jumps',cue:'Burpee, then jump forward as far as you can. Turn around at the end of the garden.'},
+   {id:'h3',name:'Lateral Shuffle (10m)',cue:'Low hockey stance, shuffle side to side the length of the garden. Don’t cross your feet.'},
+   {id:'h4',name:'Tuck Jumps',cue:'Jump and pull knees to chest, land soft and bounce straight into the next one.'},
+   {id:'h5',name:'Bear Crawl',cue:'Knees an inch off the ground, crawl forward and back. Back flat, slow and controlled — shoulder stability.'},
+   {id:'h6',name:'Med Ball Rotational Slams',cue:'10kg ball up over one shoulder, slam it down beside the opposite foot. Alternate sides.'},
+   {id:'h7',name:'Fast-Feet Step-Ups',cue:'Quick alternating taps up onto the step, sprinter arms, stay light.'},
+   {id:'h8',name:'Cross-Body Mountain Climbers',cue:'Drive each knee towards the opposite elbow, hips low, hands under shoulders.'}
   ],
-  cool:['Walk 2 min until breathing settles','Hamstring stretch 30s / leg','Quad stretch 30s / leg','Calf stretch 30s / leg']
+  cool:['Walk 2 min until breathing settles','Hamstring stretch 30s / leg','Quad stretch 30s / leg','Chest + shoulder doorway stretch 30s']
 },
-{ id:3,short:'Upper',title:'Upper Body & Abs',type:'strength',dur:'~45 min',tags:['Arms','Back','Shoulders','Abs'],
-  warm:['30 arm circles (forward and back)','15 band pull-aparts (light)','10 incline push-ups on the bench','10 cat-cows','20s plank'],
+{ id:3,short:'Upper',title:'Shoulders, Upper Body & Abs',type:'strength',dur:'~50 min',tags:['Shoulder health','Back','Arms','Abs'],
+  shNote:true,
+  warm:['30 arm circles (small to big, both ways)','10 band pull-aparts (light)','10 cat-cows','10 wall slides (back against wall, slide arms up)','10 incline push-ups on the bench'],
   blocks:[
+   {title:'Shoulder strength (do these first)',sh:true,ex:[
+    E('p3a','Band External Rotation','Elbow pinned to your side with a towel under the arm. Rotate out slowly, 2 seconds back in.',[[3,'12 / arm'],[3,'15 / arm'],[3,'15 / arm · 2s hold'],[3,'20 / arm']],20,{sh:true}),
+    E('p3b','Band Face Pulls','Band at head height, pull to your face, elbows high, thumbs back. Squeeze between shoulder blades.',[[3,'15'],[3,'15'],[3,'20'],[4,'20']],30,{sh:true}),
+    E('p3c','Y-T-W Raises','Face down on the bench. Arms into a Y, then a T, then a W = 1 rep. Thumbs up, no weight, no shrugging.',[[2,'6'],[3,'6'],[3,'6 · 2s hold each'],[3,'8 · 2s hold each']],30,{sh:true})
+   ]},
    {title:'Upper Body',ex:[
-    E('d3a','Push-Ups','Hands under shoulders, body in one straight line. Incline = hands on the bench.',[[3,'8 · incline on bench'],[3,'10 · incline on bench'],[3,'8 · floor (knees if needed)'],[4,'8 · floor']],60),
-    E('d3b','Single-Arm Dumbbell Row','Hand and knee on the bench, pull the 12.5kg to your hip, squeeze your shoulder blade.',[[3,'10 / arm'],[3,'12 / arm'],[4,'12 / arm'],[4,'12 / arm · 3s down']],45),
-    E('d3c','Single-Arm Shoulder Press','4kg dumbbell. Brace your abs, press straight up, don’t lean back.',[[3,'10 / arm'],[3,'12 / arm'],[4,'10 / arm'],[4,'12 / arm']],45),
-    E('d3d','Band Pull-Aparts','Arms straight at shoulder height, pull the band to your chest, squeeze between shoulder blades.',[[3,'15'],[3,'15'],[3,'20'],[4,'20']],30),
-    E('d3e','Bench Tricep Dips','Hands on bench edge, elbows point back (not out). Straighter legs = harder.',[[3,'8 · knees bent'],[3,'10 · knees bent'],[3,'10 · legs straight'],[4,'10 · legs straight']],45),
-    E('d3f','Bicep Curls','Elbows pinned to your sides, no swinging, slow on the way down.',[[3,'10 / arm · 3kg'],[3,'12 / arm · 3kg'],[3,'10 / arm · 4kg'],[3,'12 / arm · 4kg']],30),
-    E('d3g','Med Ball Chest Pass','Explosive push of the 10kg ball against a wall, catch and repeat. Power, not speed.',[[3,'8'],[3,'10'],[4,'10'],[4,'12']],45)
+    E('p3d','Push-Ups','On the floor, body in one line, elbows at about 45° (not flared). Drop to knees for the last reps if needed.',[[3,'8'],[3,'10'],[4,'8 · 3s down'],[4,'10 · 3s down']],60),
+    E('p3e','Single-Arm Row','12.5kg, hand and knee on the bench. Pull to your hip, squeeze the shoulder blade back and down.',[[3,'12 / arm'],[4,'12 / arm'],[4,'10 / arm · 2s squeeze'],[4,'12 / arm · 2s squeeze']],45),
+    E('p3f','Half-Kneeling Single-Arm Press','4kg. Kneel on one knee, squeeze that glute, press up slightly in front of your head. Stop if it pinches.',[[3,'10 / arm'],[3,'12 / arm'],[3,'10 / arm · 3s down'],[4,'10 / arm · 3s down']],45),
+    E('p3g','Lateral Raises','3kg, one arm at a time. Lift to shoulder height only, slight bend in the elbow, lower slowly.',[[3,'10 / arm'],[3,'12 / arm'],[3,'15 / arm'],[4,'12 / arm · 2s pause']],30),
+    E('p3h','Tricep Kickbacks','Hinge forward, elbow tucked high by your ribs, straighten the arm back and squeeze.',[[3,'12 / arm · 3kg'],[3,'12 / arm · 4kg'],[3,'15 / arm · 4kg'],[4,'12 / arm · 4kg']],30),
+    E('p3i','Hammer Curls','4kg, thumb facing up, elbows pinned, slow on the way down.',[[3,'10 / arm'],[3,'12 / arm'],[3,'12 / arm · 3s down'],[4,'12 / arm']],30)
    ]},
    {title:'Abs',ex:[
-    E('d3h','Hollow Body Hold','Lower back pressed down, arms by ears, legs low. Bend knees to make it easier.',[[3,'20s'],[3,'25s'],[3,'30s'],[3,'40s']],30,{timed:true}),
-    E('d3i','Side Plank','Hips high, body in a straight line, don’t let the top hip roll forward.',[[2,'20s / side'],[3,'25s / side'],[3,'30s / side'],[3,'40s / side']],20,{timed:true}),
-    E('d3j','V-Ups / Tuck-Ups','Reach hands to toes. Use tuck-ups if V-ups are too hard.',[[3,'10'],[3,'12'],[3,'15'],[4,'12']],30),
-    E('d3k','Standing Woodchops','Diagonal from high over one shoulder down to the opposite hip. Rotate through your core.',[[3,'10 / side · 3kg'],[3,'12 / side · 4kg'],[3,'10 / side · 10kg ball'],[3,'12 / side · 10kg ball']],30)
+    E('p3j','Bear Hold','Hands under shoulders, knees an inch off the floor, back flat. Push the floor away.',[[3,'20s'],[3,'30s'],[3,'40s'],[3,'45s']],30,{timed:true,sh:true}),
+    E('p3k','Hollow Rocks','Hollow body position, rock gently from shoulders to hips without breaking the shape.',[[3,'10'],[3,'12'],[3,'15'],[4,'15']],30),
+    E('p3l','Copenhagen Side Plank','On your forearm, top leg’s knee on the bench, bottom leg hanging. Hockey-player inner-thigh strength.',[[2,'15s / side'],[3,'20s / side'],[3,'25s / side'],[3,'30s / side']],20,{timed:true})
    ]}
   ],
-  cool:['Chest doorway stretch 30s','Tricep overhead stretch 30s / arm','Cross-body shoulder stretch 30s / arm','Cobra stretch 30s']
+  cool:['Doorway chest stretch 30s','Cross-body shoulder stretch 30s / arm','Thread the needle 30s / side','Child’s pose with arms long 30s']
 },
 { id:4,short:'Run',title:'Long Run',type:'run',dur:'Distance goal',tags:['Endurance','Fat burn'],
-  dist:[1,2,3,4],
-  warm:['3 min brisk walk','10 leg swings each leg','10 walking lunges','2 × 20m easy strides'],
+  dist:[4.5,5,5.5,6],
+  tip:['Easy, steady pace the whole way.','Steady pace — 5 km! Same pace as last week is a win.','Steady, then pick it up a little for the last 500m.','Steady, then run the last 1 km at a strong pace.'],
+  warm:['3 min brisk walk','10 leg swings each leg','10 walking lunges','10 arm circles','2 × 20m easy strides'],
   cool:['3–5 min walk','Calf stretch 30s / leg','Hamstring stretch 30s / leg','Hip flexor stretch 30s / side']
 },
-{ id:5,short:'Hams',title:'Hamstrings, Calves & Abs',type:'strength',dur:'~45 min',tags:['Hamstrings','Calves','Abs','Squat finisher'],
-  warm:['2 min skipping / jog on the spot','10 good mornings (hands on head)','10 glute bridges','10 calf raises','10 inchworms'],
+{ id:5,short:'Hams',title:'Hamstrings, Calves & Abs',type:'strength',dur:'~45–50 min',tags:['Hamstrings','Calves','Abs','Shoulder prep','Squat finisher'],
+  warm:['2 min skipping / jog on the spot','10 good mornings (hands on head)','10 glute bridges','10 calf raises','5 inchworms'],
   blocks:[
+   {title:'Shoulder prep (5 min)',sh:true,ex:SHOULDER_B},
    {title:'Hamstrings & Calves',ex:[
-    E('d5a','Single-Leg Romanian Deadlift','Soft knee, hinge at the hips, keep hips square. Dumbbell in the opposite hand.',[[3,'8 / leg · 4kg'],[3,'10 / leg · 4kg'],[3,'8 / leg · 12.5kg'],[3,'10 / leg · 12.5kg']],45),
-    E('d5b','Romanian Deadlift','Hold the 12.5kg in both hands. Push hips back, flat back, feel the stretch, then squeeze glutes to stand.',[[3,'12'],[3,'15'],[4,'12 · 3s down'],[4,'15 · 3s down']],60),
-    E('d5c','Hamstring Walkouts','From a glute bridge, walk heels out slowly in 4 small steps and back. Keep hips up.',[[3,'6'],[3,'8'],[4,'8'],[4,'10']],45),
-    E('d5d','Banded Hamstring Curl','Lie face down, band looped around a bench leg and your ankle, curl heel to bum.',[[3,'12 / leg'],[3,'15 / leg'],[3,'15 / leg · 2s squeeze'],[4,'15 / leg · 2s squeeze']],30),
-    E('d5e','Single-Leg Calf Raise (on step)','Heel drops below the step, rise all the way onto your toes, 1s pause at the top.',[[3,'12 / leg'],[3,'15 / leg'],[3,'12 / leg · hold 4kg'],[4,'15 / leg · hold 4kg']],30),
-    E('d5f','Pogo Hops','Stiff ankles, quick bounces off the balls of your feet — sprinter springs.',[[3,'20s'],[3,'30s'],[4,'30s'],[4,'40s']],30,{timed:true})
+    E('p5a','Single-Leg Romanian Deadlift','12.5kg in the opposite hand. Hips square, long back, feel the hamstring stretch.',[[3,'8 / leg'],[3,'10 / leg'],[4,'8 / leg · 3s down'],[4,'10 / leg · 3s down']],45),
+    E('p5b','Assisted Nordic Lowers','Kneel on the mat, heels hooked under the bench (or someone holds your ankles). Lower forward as SLOWLY as you can, catch with your hands, push back up. Sprinter hamstrings.',[[3,'3'],[3,'4'],[3,'5'],[4,'5']],60),
+    E('p5c','Single-Leg Bridge (heel on bench)','One heel on the bench, other leg up. Drive hips high, hold, lower slowly.',[[3,'10 / leg'],[3,'12 / leg'],[3,'12 / leg · 2s hold'],[4,'12 / leg · 2s hold']],45),
+    E('p5d','Slider Leg Curls','On your back, heels on a towel on a smooth floor, hips up. Slide heels in and out without dropping hips.',[[3,'8'],[3,'10'],[3,'8 · single-leg'],[4,'8 · single-leg']],45),
+    E('p5e','Single-Leg Calf Raise (on step)','Heel below the step, rise all the way up, 1s pause at the top.',[[3,'12 / leg · 4kg'],[3,'12 / leg · 12.5kg'],[4,'12 / leg · 12.5kg'],[4,'15 / leg · 12.5kg']],30),
+    E('p5f','Single-Leg Pogo Hops','Stiff ankle, quick bounces on the ball of one foot.',[[3,'15s / leg'],[3,'20s / leg'],[4,'20s / leg'],[4,'25s / leg']],30,{timed:true})
    ]},
    {title:'Abs',ex:[
-    E('d5g','Lying Leg Raises','Hands under hips, lower legs slowly, don’t let your lower back arch off the mat.',[[3,'10'],[3,'12'],[3,'15'],[4,'15']],30),
-    E('d5h','Bicycle Crunch','Slow and controlled, elbow towards the opposite knee, full leg extension.',[[3,'20'],[3,'24'],[3,'30'],[3,'30 · slow']],30),
-    E('d5i','Plank Shoulder Taps','Feet wide, hips dead still, tap the opposite shoulder.',[[3,'16'],[3,'20'],[3,'24'],[3,'30']],30)
+    E('p5g','Reverse Crunch + Hip Lift','Knees to chest, then lift hips off the mat. Lower slowly — no swinging.',[[3,'12'],[3,'15'],[4,'12'],[4,'15']],30),
+    E('p5h','Russian Twist (10kg ball)','Lean back, feet up if you can, rotate your shoulders.',[[3,'20'],[3,'24'],[3,'30'],[4,'24']],30),
+    E('p5i','Side Plank Hip Dips','Forearm side plank, dip hip towards the floor and drive it back up.',[[3,'10 / side'],[3,'12 / side'],[3,'15 / side'],[3,'15 / side · 2s hold']],30)
    ]},
    {title:'Finisher',finisher:true,ex:[
-    E('d5j','60 Bodyweight Squats','Full depth, chest up. Log your time and how many breaks you needed.',[[1,'60 · break as needed'],[1,'60 · max 3 breaks'],[1,'60 · max 1 break'],[1,'60 · unbroken']],0,{finisher:true})
+    E('p5j','Squat Ladder Finisher','Bodyweight squats, full depth, chest up. As few breaks as possible. Log your time and breaks.',[[1,'70 squats'],[1,'80 squats'],[1,'90 squats'],[1,'100 squats']],0,{finisher:true})
    ]}
   ],
   cool:['Hamstring stretch 30s / leg','Calf stretch on step 30s / leg','Figure-4 glute stretch 30s / side','Lying spinal twist 30s / side']
 }
 ];
+const TESTS=[['pushups','Max push-ups in 1 min','reps'],['plank','Max forearm plank','sec'],['wallsit','Max wall sit','sec'],['shuttle','5 × 10m shuttle (50m)','sec'],['squat60','60 squats','time'],['er','Band external rotations (to fatigue, weaker arm)','reps']];
+const lbl=w=>WEEKS[w-1].label;
 
 /* ================= STATE ================= */
-const KEY='athleteBuild.v1';
+const KEY='athleteBuild.phase2.v1';
 let S;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
-if(!S||!S.w)S={name:'',w:{},ui:{week:1,day:1,tab:'train'}};
+if(!S||!S.w)S={name:'',w:{},base:{},tests:{s:{},e:{}},ui:{week:1,day:1,tab:'train'}};
+S.base=S.base||{};S.tests=S.tests||{s:{},e:{}};
+if(!S.name){try{const o=JSON.parse(localStorage.getItem('athleteBuild.v1'));if(o&&o.name)S.name=o.name;if(o&&o.theme&&!S.theme)S.theme=o.theme}catch(e){}}
 S.ui=S.ui||{week:1,day:1,tab:'train'};
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const W=w=>(S.w[w]=S.w[w]||{d:{},c:{}});
@@ -292,8 +319,8 @@ function weekPct(w){let t=0,d=0;DAYS.forEach(day=>{const p=dayProgress(day,w);t+
 
 /* ================= RENDER ================= */
 function renderWeeks(){
-  $('#weeks').innerHTML=WEEKS.map(w=>`<button class="chip ${S.ui.week===w.n?'on':''}" data-week="${w.n}">Wk ${w.n}<span class="pct">${weekPct(w.n)}%</span></button>`).join('');
-  $('#hello').textContent=S.name?`Let’s go, ${S.name}`:'4-week program';
+  $('#weeks').innerHTML=WEEKS.map(w=>`<button class="chip ${S.ui.week===w.n?'on':''}" data-week="${w.n}">Wk ${w.label}<span class="pct">${weekPct(w.n)}%</span></button>`).join('');
+  $('#hello').textContent=S.name?`Let’s go, ${S.name}`:'Weeks 5–8';
 }
 function render(){
   renderWeeks();
@@ -305,7 +332,8 @@ function render(){
 function trainView(){
   const w=S.ui.week,wk=WEEKS[w-1],day=DAYS[S.ui.day-1],r=D(w,day.id);
   let h=`<div class="days">${DAYS.map(d=>{const rr=D(w,d.id);return `<button class="dbtn ${d.id===day.id?'on':''} ${rr.done?'done':''}" data-day="${d.id}"><b>D${d.id}</b><span>${d.short}</span></button>`}).join('')}</div>`;
-  h+=`<div class="card weekcard"><div class="k">Week ${w} of 4</div><h2>${wk.theme}</h2><p>${day.type==='hiit'?'HIIT stays the same every week — beat your own effort, not the plan.':wk.note}</p></div>`;
+  h+=`<div class="card weekcard"><div class="k">Phase 2 · Week ${wk.label} of 8</div><h2>${wk.theme}</h2><p>${day.type==='hiit'?'New Phase 2 circuit — stays the same all 4 weeks. Beat your own effort each week.':wk.note}</p></div>`;
+  if(day.shNote)h+=`<div class="card shbanner"><b>Shoulder day.</b> This session follows the doctor’s advice to strengthen her shoulders. Light weights, slow reps, no pain. If the doctor or a physio gave specific exercises or limits, those come first.</div>`;
   h+=`<div class="card dayhead"><div class="muted cond" style="font-size:15px;text-transform:uppercase;letter-spacing:.08em">Day ${day.id} · ${day.dur}</div><h2>${day.title}</h2><div class="tags">${day.tags.map((t,i)=>`<span class="tag ${i===0?'a':''}">${t}</span>`).join('')}</div></div>`;
   h+=listCard('Warm-up','warm',day.warm,r.warm);
   if(day.type==='strength')h+=strengthBody(day,w,r);
@@ -322,20 +350,20 @@ function bubbles(id,n,arr){let s='';for(let i=0;i<n;i++)s+=`<button class="set $
 function strengthBody(day,w,r){
   let h='';
   day.blocks.forEach(b=>{
-    h+=`<div class="sect"><h3>${b.title}</h3></div>`;
+    h+=`<div class="sect"><h3>${b.title}</h3></div>${b.sh&&b.ex.length<3?`<p class="muted" style="font-size:13px;margin:0 2px 6px">Doctor’s orders — keep the shoulders strong. Light band, slow and strict.</p>`:''}`;
     b.ex.forEach(e=>{
       const [n,reps]=e.w[w-1],arr=r.s[e.id]||[],all=[...Array(n)].every((_,i)=>arr[i]);
-      const prevW=w>1?D(w-1,day.id).l[e.id]:'';
-      h+=`<div class="card ex ${all?'done':''}">
+      const prevW=w>1?D(w-1,day.id).l[e.id]:'';const prevLbl=w>1?`Week ${lbl(w-1)}`:'';
+      h+=`<div class="card ex ${e.sh?'sh':''} ${all?'done':''}">
         <div class="ex-top"><div><div class="ex-name">${e.name}</div>
         <div class="rx"><b>${n>1?n+' × ':''}${reps}</b>${e.rest?` <span class="r">· rest ${e.rest}s</span>`:''}</div></div></div>
         <div class="cue">${e.cue}</div>
-        ${prevW?`<div class="prev">Last week: ${esc(prevW)}</div>`:''}
+        ${prevW?`<div class="prev">${prevLbl}: ${esc(prevW)}</div>`:''}
         <div class="sets">${bubbles(e.id,n,arr)}
           ${e.timed?`<button class="mini" data-act="hold" data-s="${parseInt(reps)}">${parseInt(reps)}s timer</button>`:''}
           ${e.rest?`<button class="mini" data-act="rest" data-s="${e.rest}">Rest ${e.rest}s</button>`:''}</div>
         ${e.finisher
-          ?`<div class="row"><input class="field" inputmode="numeric" placeholder="Time (e.g. 2:15)" data-act="load" data-id="${e.id}" value="${esc(r.l[e.id])}"><input class="field" inputmode="numeric" placeholder="Breaks taken" data-act="fin" data-id="breaks" value="${esc(r.breaks)}"></div>`
+          ?`<div class="row"><input class="field" placeholder="Time (e.g. 2:15)" data-act="load" data-id="${e.id}" value="${esc(r.l[e.id])}"><input class="field" inputmode="numeric" placeholder="Breaks taken" data-act="fin" data-id="breaks" value="${esc(r.breaks)}"></div>`
           :`<input class="field" placeholder="Weight / reps / how it felt" data-act="load" data-id="${e.id}" value="${esc(r.l[e.id])}">`}
       </div>`;
     });
@@ -363,8 +391,8 @@ function runBody(day,w,r){
   const prev=w>1?D(w-1,4):null;
   return `<div class="sect"><h3>Run</h3></div><div class="card">
     <div class="big">${km}<small> km</small></div>
-    <p class="muted" style="margin:6px 0 0">Goal: run the full ${km} km <b>without walking</b>. Find a pace you can hold the whole way — you should be able to say a short sentence. Pace yourself, it’s not a race.</p>
-    ${prev&&prev.min?`<div class="prev">Last week: ${D(w-1,4).min}:${String(prev.sec||0).padStart(2,'0')} for ${day.dist[w-2]} km (${paceOf(prev.min,prev.sec,day.dist[w-2])||'-'} /km)</div>`:''}
+    <p class="muted" style="margin:6px 0 0">Goal: run the full ${km} km <b>without walking</b>. ${day.tip[w-1]} If you need to, slow right down — but keep running.</p>
+    ${w===1&&S.base.run?`<div class="prev">Phase 1 best: 4 km in ${esc(S.base.run)}</div>`:''}${prev&&prev.min?`<div class="prev">Week ${lbl(w-1)}: ${D(w-1,4).min}:${String(prev.sec||0).padStart(2,'0')} for ${day.dist[w-2]} km (${paceOf(prev.min,prev.sec,day.dist[w-2])||'-'} /km)</div>`:''}
     <span class="lbl">Your time</span>
     <div class="row"><input class="field" style="margin-top:6px" inputmode="numeric" placeholder="Minutes" data-act="run" data-k="min" value="${esc(r.min)}"><input class="field" style="margin-top:6px" inputmode="numeric" placeholder="Seconds" data-act="run" data-k="sec" value="${esc(r.sec)}"></div>
     <div class="muted" style="margin-top:8px">Pace: <b id="pace" style="color:var(--ink)">${pace?pace+' /km':'—'}</b></div>
@@ -382,6 +410,8 @@ function sessionLog(day,w,r){
     <div class="rpe">${[...Array(10)].map((_,i)=>`<button class="${r.rpe===i+1?'on':''}" data-act="rpe" data-v="${i+1}">${i+1}</button>`).join('')}</div>
     <span class="lbl">Energy</span>
     <div class="seg">${['Low','Okay','Good','Great'].map(v=>`<button class="${r.energy===v?'on':''}" data-act="energy" data-v="${v}">${v}</button>`).join('')}</div>
+    <span class="lbl">Shoulders today</span>
+    <div class="seg">${['Great','Fine','Tight','Sore'].map(v=>`<button class="${r.sh===v?'on':''}" data-act="shfeel" data-v="${v}">${v}</button>`).join('')}</div>
     <span class="lbl">Notes</span>
     <textarea class="field" style="margin-top:6px" placeholder="Anything to remember — sore spots, PBs, what to push next week" data-act="note">${esc(r.n)}</textarea>
     <div style="margin-top:12px"><button class="btn ${r.done?'good':''}" data-act="done">${r.done?'✓ Completed'+(r.date?' · '+r.date:''):'Mark session complete'}</button></div>
@@ -396,22 +426,41 @@ function progressView(){
     <div class="big">${Math.round(done/total*100)}<small>%</small></div><div class="bar"><i style="width:${done/total*100}%"></i></div></div>
     <div class="stat"><div class="card"><b>${done}</b><span>Sessions</span></div><div class="card"><b>${sets}</b><span>Sets done</span></div><div class="card"><b>${runKm()}</b><span>km run</span></div></div>`;
   h+=`<div class="sect"><h3>Session map</h3></div><div class="card"><div class="grid"><div></div>${DAYS.map(d=>`<div class="h">${d.short}</div>`).join('')}
-    ${[1,2,3,4].map(w=>`<div class="muted" style="font-weight:600">Wk ${w}</div>${DAYS.map(d=>{const r=D(w,d.id),p=dayProgress(d,w);const c=r.done?'ok':p.done?'part':'';return `<button class="c ${c}" style="border:none" data-goto="${w}-${d.id}">${r.done?'✓':p.done?Math.round(p.pct*100)+'%':''}</button>`}).join('')}`).join('')}
+    ${[1,2,3,4].map(w=>`<div class="muted" style="font-weight:600">Wk ${lbl(w)}</div>${DAYS.map(d=>{const r=D(w,d.id),p=dayProgress(d,w);const c=r.done?'ok':p.done?'part':'';return `<button class="c ${c}" style="border:none" data-goto="${w}-${d.id}">${r.done?'✓':p.done?Math.round(p.pct*100)+'%':''}</button>`}).join('')}`).join('')}
   </div><p class="muted" style="font-size:12px;margin:10px 0 0">Tap any square to jump to that session.</p></div>`;
   // runs
   const runs=[1,2,3,4].map(w=>{const r=D(w,4);const t=(+r.min||0)*60+(+r.sec||0);return {w,km:DAYS[3].dist[w-1],t,r}});
   const maxT=Math.max(...runs.map(x=>x.t),1);
-  h+=`<div class="sect"><h3>Run log</h3></div><div class="card"><div class="runbars">${runs.map(x=>`<div><span style="margin-bottom:4px;color:var(--ink);font-weight:600">${x.t?paceOf(x.r.min,x.r.sec,x.km):''}</span><i class="${x.t?'':'empty'}" style="height:${x.t?Math.max(8,x.t/maxT*85):6}%"></i><span style="margin-top:4px">Wk${x.w} · ${x.km}km</span></div>`).join('')}</div>
+  h+=`<div class="sect"><h3>Run log</h3></div><div class="card"><div class="runbars">${runs.map(x=>`<div><span style="margin-bottom:4px;color:var(--ink);font-weight:600">${x.t?paceOf(x.r.min,x.r.sec,x.km):''}</span><i class="${x.t?'':'empty'}" style="height:${x.t?Math.max(8,x.t/maxT*85):6}%"></i><span style="margin-top:4px">Wk${lbl(x.w)} · ${x.km}km</span></div>`).join('')}</div>
     <table style="margin-top:12px"><tr><th>Week</th><th>Dist</th><th>Time</th><th>Pace</th><th>No walk</th></tr>
-    ${runs.map(x=>`<tr><td>${x.w}</td><td>${x.km} km</td><td>${x.t?x.r.min+':'+String(x.r.sec||0).padStart(2,'0'):'—'}</td><td>${x.t?paceOf(x.r.min,x.r.sec,x.km):'—'}</td><td>${x.r.nowalk?'✓':'—'}</td></tr>`).join('')}</table>
-    <p class="muted" style="font-size:12px;margin:8px 0 0">Pace (min/km) shown above each bar — distance goes up every week, so holding the same pace is a win.</p></div>`;
+    ${runs.map(x=>`<tr><td>${lbl(x.w)}</td><td>${x.km} km</td><td>${x.t?x.r.min+':'+String(x.r.sec||0).padStart(2,'0'):'—'}</td><td>${x.t?paceOf(x.r.min,x.r.sec,x.km):'—'}</td><td>${x.r.nowalk?'✓':'—'}</td></tr>`).join('')}</table>
+    <p class="muted" style="font-size:12px;margin:8px 0 0">Pace (min/km) shown above each bar — distance goes up every week, so holding the same pace is a win.${S.base.run?` Phase 1: 4 km in ${esc(S.base.run)}.`:''}</p></div>`;
   // finisher
-  h+=`<div class="sect"><h3>60-squat finisher</h3></div><div class="card"><table><tr><th>Week</th><th>Target</th><th>Time</th><th>Breaks</th></tr>
-    ${[1,2,3,4].map(w=>{const r=D(w,5);return `<tr><td>${w}</td><td>${DAYS[4].blocks[2].ex[0].w[w-1][1].replace('60 · ','')}</td><td>${esc(r.l.d5j)||'—'}</td><td>${esc(r.breaks)||'—'}</td></tr>`}).join('')}</table></div>`;
+  h+=`<div class="sect"><h3>Squat ladder finisher</h3></div><div class="card"><table><tr><th>Week</th><th>Target</th><th>Time</th><th>Breaks</th></tr>
+    ${[1,2,3,4].map(w=>{const r=D(w,5);return `<tr><td>${lbl(w)}</td><td>${DAYS[4].blocks[3].ex[0].w[w-1][1]}</td><td>${esc(r.l.d5j)||'—'}</td><td>${esc(r.breaks)||'—'}</td></tr>`}).join('')}</table></div>`;
+  // shoulder log
+  h+=`<div class="sect"><h3>Shoulder log</h3></div><div class="card"><div class="grid"><div></div>${DAYS.map(d=>`<div class="h">${d.short}</div>`).join('')}
+    ${[1,2,3,4].map(w=>`<div class="muted" style="font-weight:600">Wk ${lbl(w)}</div>${DAYS.map(d=>{const v=D(w,d.id).sh;return `<div style="text-align:center">${v?`<span class="shl ${v}">${v}</span>`:'<span class="muted">·</span>'}</div>`}).join('')}`).join('')}
+  </div><p class="muted" style="font-size:12px;margin:10px 0 0">Logged from “Shoulders today” at the end of each session. If “Sore” shows up more than once in a week, go lighter on pressing and push-ups and let the doctor know.</p></div>`;
+  // fitness tests
+  const tv=(p,k)=>esc(S.tests[p][k]);
+  h+=`<div class="sect"><h3>Fitness tests</h3></div><div class="card">
+    <p class="muted" style="margin:0 0 6px;font-size:13px">Do these once at the start of Week 5 and again at the end of Week 8 (fresh, after a warm-up, on a rest day or before a session).</p>
+    <table><tr><th>Test</th><th>Wk 5</th><th>Wk 8</th><th>Change</th></tr>
+    ${TESTS.map(([k,l,u])=>{const a=parseFloat(S.tests.s[k]),b=parseFloat(S.tests.e[k]);let d='',good=true;if(!isNaN(a)&&!isNaN(b)&&u!=='time'){const x=b-a;d=(x>0?'+':'')+(Math.round(x*10)/10);good=k==='shuttle'?x<0:x>0;}return `<tr><td style="font-size:12px">${l}<div class="muted" style="font-size:10px">${u==='time'?'mm:ss':u}</div></td><td><input class="field" style="margin:0;padding:6px;width:64px" inputmode="${u==='time'?'text':'decimal'}" data-act="test" data-p="s" data-k="${k}" value="${tv('s',k)}"></td><td><input class="field" style="margin:0;padding:6px;width:64px" inputmode="${u==='time'?'text':'decimal'}" data-act="test" data-p="e" data-k="${k}" value="${tv('e',k)}"></td><td style="font-weight:700;color:${good?'var(--good)':'var(--muted)'}">${d}</td></tr>`}).join('')}</table>
+    <p class="muted" style="font-size:12px;margin:8px 0 0">For the shuttle and squat tests, lower is better.</p></div>`;
+  // phase 1 baseline
+  const bf=(k,l,ph)=>`<div><span class="lbl">${l}</span><input class="field" style="margin-top:4px" inputmode="decimal" placeholder="${ph}" data-act="base" data-k="${k}" value="${esc(S.base[k])}"></div>`;
+  h+=`<div class="sect"><h3>End of Phase 1</h3></div><div class="card">
+    <p class="muted" style="margin:0;font-size:13px">Copy her Week 4 numbers from the Phase 1 tracker so every Phase 2 check-in compares to where she finished.</p>
+    <div class="row">${bf('wt','Weight (kg)','Wk 4')}${bf('waist','Waist (cm)','Wk 4')}</div>
+    <div class="row">${bf('hips','Hips (cm)','Wk 4')}${bf('thigh','Thigh (cm)','Wk 4')}</div>
+    <div class="row">${bf('arm','Arm (cm)','Wk 4')}<div><span class="lbl">4 km run time</span><input class="field" style="margin-top:4px" placeholder="e.g. 26:30" data-act="base" data-k="run" value="${esc(S.base.run)}"></div></div>
+  </div>`;
   // check-in
   const cw=S.ui.week,c=W(cw).c;
   const f=(k,l,ph,mode='decimal')=>`<div><span class="lbl">${l}</span><input class="field" style="margin-top:4px" inputmode="${mode}" placeholder="${ph}" data-act="chk" data-k="${k}" value="${esc(c[k])}"></div>`;
-  h+=`<div class="sect"><h3>Week ${cw} check-in</h3></div><div class="card">
+  h+=`<div class="sect"><h3>Week ${lbl(cw)} check-in</h3></div><div class="card">
     <p class="muted" style="margin:0;font-size:13px">Measure at the end of each week, same time of day (morning, before eating). Measurements show body change better than the scale when building muscle.</p>
     <div class="row">${f('wt','Weight (kg)','e.g. 58.4')}${f('waist','Waist (cm)','at belly button')}</div>
     <div class="row">${f('hips','Hips / glutes (cm)','widest point')}${f('thigh','Thigh (cm)','mid-thigh')}</div>
@@ -419,13 +468,13 @@ function progressView(){
     <label class="checkrow" style="margin-top:12px"><input type="checkbox" data-act="chkflag" data-k="photo" ${c.photo?'checked':''}> Progress photo taken (front, side, back)</label>
     <label class="checkrow" style="margin-top:8px"><input type="checkbox" data-act="chkflag" data-k="water" ${c.water?'checked':''}> Drank 2L+ water most days</label>
     <label class="checkrow" style="margin-top:8px"><input type="checkbox" data-act="chkflag" data-k="protein" ${c.protein?'checked':''}> Protein with every meal most days</label>
-    <span class="lbl">Win of the week</span><input class="field" style="margin-top:4px" placeholder="e.g. first floor push-ups!" data-act="chk" data-k="win" value="${esc(c.win)}">
+    <span class="lbl">Win of the week</span><input class="field" style="margin-top:4px" placeholder="e.g. first Nordic lower without collapsing!" data-act="chk" data-k="win" value="${esc(c.win)}">
   </div>`;
   const keys=[['wt','Wt'],['waist','Waist'],['hips','Hips'],['thigh','Thigh'],['arm','Arm']];
-  const base=W(1).c;
+  const hasBase=Object.keys(S.base).some(k=>k!=='run'&&S.base[k]);const base=hasBase?S.base:W(1).c;
   h+=`<div class="card"><table><tr><th>Wk</th>${keys.map(k=>`<th>${k[1]}</th>`).join('')}</tr>
-    ${[1,2,3,4].map(w=>{const cc=W(w).c;return `<tr><td>${w}</td>${keys.map(([k])=>{const v=parseFloat(cc[k]),b=parseFloat(base[k]);const d=(w>1&&!isNaN(v)&&!isNaN(b))?(v-b):null;return `<td>${isNaN(v)?'—':v}${d!==null&&d!==0?`<div style="font-size:11px;color:var(--muted)">${d>0?'+':''}${d.toFixed(1)}</div>`:''}</td>`}).join('')}</tr>`}).join('')}</table>
-    <p class="muted" style="font-size:12px;margin:8px 0 0">Small grey numbers = change since Week 1. Switch weeks at the top to fill in each check-in.</p></div>`;
+    ${hasBase?`<tr><td>P1</td>${keys.map(([k])=>`<td class="muted">${esc(S.base[k])||'—'}</td>`).join('')}</tr>`:''}${[1,2,3,4].map(w=>{const cc=W(w).c;return `<tr><td>${lbl(w)}</td>${keys.map(([k])=>{const v=parseFloat(cc[k]),b=parseFloat(base[k]);const d=((hasBase||w>1)&&!isNaN(v)&&!isNaN(b))?(v-b):null;return `<td>${isNaN(v)?'—':v}${d!==null&&d!==0?`<div style="font-size:11px;color:var(--muted)">${d>0?'+':''}${d.toFixed(1)}</div>`:''}</td>`}).join('')}</tr>`}).join('')}</table>
+    <p class="muted" style="font-size:12px;margin:8px 0 0">Small grey numbers = change since ${hasBase?'the end of Phase 1':'Week 5'}. Switch weeks at the top to fill in each check-in.</p></div>`;
   // settings
   h+=`<div class="sect"><h3>Settings & backup</h3></div><div class="card">
     <span class="lbl" style="margin-top:0">Your name</span><input class="field" style="margin-top:4px" placeholder="First name" data-act="name" value="${esc(S.name)}">
@@ -441,36 +490,38 @@ function runKm(){let k=0;for(let w=1;w<=4;w++)if(D(w,4).done)k+=DAYS[3].dist[w-1
 
 function guideView(){
   return `<div class="prose">
-  <div class="card" style="margin-top:14px"><h3>How it works</h3>
-    <p>Four weeks, five sessions a week, built for an athletic sprinter / gymnast / hockey build: strong legs and glutes, a tight core, toned arms and shoulders, and the fitness to go hard for longer.</p>
-    <ul><li><b>Tick each set</b> as you finish it. Write the weight or how it felt in the box — next week you’ll see it under “Last week”.</li>
-    <li><b>Mark the session complete</b> at the bottom when you’re done.</li>
-    <li>Use the <b>Rest</b> and <b>hold</b> buttons for a countdown with a beep.</li>
-    <li>Do the <b>check-in</b> on the Progress tab at the end of each week.</li></ul></div>
+  <div class="card" style="margin-top:14px"><h3>Phase 2 · Weeks 5–8</h3>
+    <p>Phase 1 built the base. Phase 2 uses the same equipment and the same 5-day layout, but makes it harder: <b>single-leg strength, more power, sprinter hamstrings, hockey hips, and a dedicated shoulder-strengthening focus</b>.</p>
+    <ul><li><b>Tick each set</b> as you go and note the weight or how it felt — next week shows it under each exercise.</li>
+    <li>Log <b>“Shoulders today”</b> at the end of every session.</li>
+    <li>Do the <b>fitness tests</b> in Week 5 and Week 8, and the <b>check-in</b> at the end of each week (Progress tab).</li></ul></div>
+  <div class="card shbanner"><h3 style="color:var(--accent)">Shoulder focus</h3>
+    <p style="margin:0 0 6px">Her doctor asked her to strengthen her shoulders, so shoulder work is built into <b>3 sessions a week</b>:</p>
+    <ul><li><b>Day 1 & Day 5:</b> 5-minute shoulder prep (rotator cuff + shoulder blade control).</li>
+    <li><b>Day 3:</b> full shoulder strength block first — external rotations, face pulls, Y-T-W raises — then pressing, rows and lateral raises.</li>
+    <li>Bench dips from Phase 1 are swapped for kickbacks (dips can be hard on the front of the shoulder).</li></ul>
+    <p style="margin:6px 0 0"><b>Rules:</b> light band, slow reps, no shrugging, and <b>never through pain</b>. If the doctor or a physio gave specific exercises or limits, follow those first and swap anything here that doesn’t fit.</p></div>
   <div class="card"><h3>Suggested week</h3>
-    <table><tr><td><b>Mon</b></td><td>Day 1 · Quads, glutes & abs</td></tr><tr><td><b>Tue</b></td><td>Day 2 · HIIT circuit</td></tr><tr><td><b>Wed</b></td><td>Day 3 · Upper body & abs</td></tr><tr><td><b>Thu</b></td><td>Day 4 · Long run</td></tr><tr><td><b>Fri</b></td><td>Day 5 · Hamstrings, calves & abs</td></tr><tr><td><b>Sat/Sun</b></td><td>Rest, walk, stretch, play sport</td></tr></table>
-    <p class="muted" style="font-size:13px">Can’t train on a day? Move it — just try not to do Day 1 and Day 5 back to back.</p></div>
+    <table><tr><td><b>Mon</b></td><td>Day 1 · Quads, glutes & abs</td></tr><tr><td><b>Tue</b></td><td>Day 2 · HIIT circuit</td></tr><tr><td><b>Wed</b></td><td>Day 3 · Shoulders, upper body & abs</td></tr><tr><td><b>Thu</b></td><td>Day 4 · Long run</td></tr><tr><td><b>Fri</b></td><td>Day 5 · Hamstrings, calves & abs</td></tr><tr><td><b>Sat/Sun</b></td><td>Rest, walk, stretch, play sport</td></tr></table></div>
+  <div class="card"><h3>What’s new vs Phase 1</h3>
+    <ul><li><b>Legs:</b> 1½-rep squats, deficit split squats, single-leg hip thrusts, lateral lunges, step jumps.</li>
+    <li><b>Hamstrings:</b> assisted Nordic lowers and slider curls — the classic sprinter moves.</li>
+    <li><b>HIIT:</b> a new, more athletic circuit (broad jumps, lateral shuffles, bear crawls). Same 45/15 × 3 format, same all 4 weeks.</li>
+    <li><b>Run:</b> 4.5 → 5 → 5.5 → 6 km, still no walking. Half-km jumps keep it safe after the 4 km in Phase 1.</li>
+    <li><b>Finisher:</b> squat ladder 70 → 80 → 90 → 100.</li></ul></div>
   <div class="card"><h3>How it progresses</h3>
-    <ul><li><b>Week 1 · Foundation</b> — learn the moves, stop with 2–3 reps left.</li>
-    <li><b>Week 2 · Build</b> — more reps and sets.</li>
-    <li><b>Week 3 · Load</b> — heavier holds + slow 3-second lowering.</li>
-    <li><b>Week 4 · Peak</b> — most volume of the block.</li>
-    <li><b>HIIT</b> stays the same — try to do more reps in each 45s as the weeks go on.</li>
-    <li><b>Run</b> goes 1 → 2 → 3 → 4 km. No walking — slow down instead of stopping.</li></ul></div>
+    <ul><li><b>Week 5 · Re-Load</b> — learn the new moves.</li>
+    <li><b>Week 6 · Build</b> — more reps and sets.</li>
+    <li><b>Week 7 · Power</b> — heavier holds, slow lowering, more jumps.</li>
+    <li><b>Week 8 · Peak & Test</b> — biggest week, then re-test.</li></ul></div>
   <div class="card"><h3>To build, tone & burn fat</h3>
-    <ul><li><b>“Toning”</b> = building some muscle + losing a bit of fat so it shows. Lifting with good form and adding a little each week does both.</li>
-    <li><b>Protein</b> at every meal (eggs, chicken, fish, yoghurt, beans, mince). Muscle can’t grow without it.</li>
-    <li><b>Don’t crash diet.</b> Eat enough to fuel training — plenty of veg, fruit, whole grains, fewer sugary drinks and snacks. Being under-fuelled means less muscle, not more.</li>
-    <li><b>Sleep 7–9 hours.</b> That’s when muscle is built.</li>
-    <li><b>Water:</b> about 2 litres a day, more on hot days.</li></ul></div>
+    <ul><li><b>Protein</b> at every meal — muscle can’t grow without it.</li>
+    <li><b>Don’t crash diet.</b> Training is harder now — eat enough to fuel it.</li>
+    <li><b>Sleep 7–9 hours</b> and drink about 2 litres of water a day.</li></ul></div>
   <div class="card"><h3>Form & safety</h3>
-    <ul><li>Always do the warm-up — it takes 5 minutes and prevents injuries.</li>
-    <li>Quality over speed: a clean rep beats a fast sloppy one.</li>
-    <li>Muscle burn and soreness for 1–2 days is normal. <b>Sharp or joint pain is not</b> — stop that exercise.</li>
-    <li>Land soft on every jump: knees bent, hips back, quiet feet.</li>
-    <li>If a weight feels too easy for all sets, use the heavier one or slow down the lowering.</li></ul></div>
-  <div class="card"><h3>Your equipment</h3>
-    <p class="muted">Bodyweight · resistance bands · 10kg medicine ball · 3kg, 4kg and 12.5kg dumbbells · mat · step · bench · 10m garden.</p></div>
+    <ul><li>Always warm up. Soreness for 1–2 days is normal; <b>sharp or joint pain is not</b> — stop that exercise.</li>
+    <li>Nordic lowers are tough: control the way down and catch yourself early. Expect sore hamstrings in Week 5.</li>
+    <li>Land soft on every jump: knees bent, hips back, quiet feet.</li></ul></div>
   </div>`;
 }
 
@@ -487,6 +538,7 @@ document.addEventListener('click',e=>{
     case 'set':{const arr=r.s[t.dataset.id]=r.s[t.dataset.id]||[];arr[+t.dataset.i]=!arr[+t.dataset.i];maybeAutoComplete(day,w,r);break}
     case 'rpe':r.rpe=r.rpe===+t.dataset.v?null:+t.dataset.v;break;
     case 'energy':r.energy=r.energy===t.dataset.v?null:t.dataset.v;break;
+    case 'shfeel':r.sh=r.sh===t.dataset.v?null:t.dataset.v;if(r.sh==='Sore')toast('Noted — go lighter on shoulder work and tell the doctor if it keeps happening');break;
     case 'done':r.done=!r.done;r.date=r.done?new Date().toLocaleDateString('en-ZA',{day:'numeric',month:'short'}):null;if(r.done)toast('Session complete — nice work!');break;
     case 'rest':runTimer([{t:'rest',d:+t.dataset.s,name:'Rest',next:'Next set'}]);return;
     case 'hold':runTimer([{t:'prep',d:5,name:'Get set',next:'Hold'},{t:'work',d:+t.dataset.s,name:'Hold',next:'Done'}]);return;
@@ -494,7 +546,7 @@ document.addEventListener('click',e=>{
     case 'theme':S.theme=t.dataset.v;applyTheme();break;
     case 'export':exportData();return;
     case 'import':$('#importFile').click();return;
-    case 'reset':if(confirm('Reset ALL progress? This cannot be undone (export a backup first).')){S={name:S.name,theme:S.theme,w:{},ui:{week:1,day:1,tab:'train'}};toast('Progress reset')}break;
+    case 'reset':if(confirm('Reset ALL Phase 2 progress? This cannot be undone (export a backup first).')){S={name:S.name,theme:S.theme,w:{},base:{},tests:{s:{},e:{}},ui:{week:1,day:1,tab:'train'}};toast('Progress reset')}break;
     default:return;
   }
   save();render();
@@ -517,7 +569,9 @@ document.addEventListener('input',e=>{
   else if(a==='note')r.n=v;
   else if(a==='run'){r[t.dataset.k]=v.replace(/\D/g,'');const p=paceOf(r.min,r.sec,day.dist[w-1]);const el=$('#pace');if(el)el.textContent=p?p+' /km':'—'}
   else if(a==='chk')W(w).c[t.dataset.k]=v;
-  else if(a==='name'){S.name=v.trim();$('#hello').textContent=S.name?`Let’s go, ${S.name}`:'4-week program'}
+  else if(a==='base')S.base[t.dataset.k]=v;
+  else if(a==='test')S.tests[t.dataset.p][t.dataset.k]=v;
+  else if(a==='name'){S.name=v.trim();$('#hello').textContent=S.name?`Let’s go, ${S.name}`:'Weeks 5–8'}
   save();
 });
 function maybeAutoComplete(day,w,r){
@@ -526,12 +580,12 @@ function maybeAutoComplete(day,w,r){
 }
 function exportData(){
   const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`athlete-build-backup-${new Date().toISOString().slice(0,10)}.json`;
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`athlete-build-phase2-backup-${new Date().toISOString().slice(0,10)}.json`;
   document.body.appendChild(a);a.click();a.remove();toast('Backup downloaded');
 }
 function importData(file){
   if(!file)return;const fr=new FileReader();
-  fr.onload=()=>{try{const d=JSON.parse(fr.result);if(!d||typeof d.w!=='object')throw 0;S=d;S.ui=S.ui||{week:1,day:1,tab:'progress'};save();applyTheme();render();toast('Backup restored')}catch(e){toast('That file isn’t a valid backup')}};
+  fr.onload=()=>{try{const d=JSON.parse(fr.result);if(!d||typeof d.w!=='object')throw 0;S=d;S.ui=S.ui||{week:1,day:1,tab:'progress'};S.base=S.base||{};S.tests=S.tests||{s:{},e:{}};save();applyTheme();render();toast('Backup restored')}catch(e){toast('That file isn’t a valid backup')}};
   fr.readAsText(file);
 }
 function applyTheme(){const r=document.documentElement;if(!S.theme||S.theme==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',S.theme)}
